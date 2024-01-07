@@ -86,7 +86,7 @@ y = df_clean['target']
 smote = SMOTE(random_state=42)
 X, y = smote.fit_resample(X, y)
 
-model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
+model = pickle.load(open("model/knn_best_model.pkl", 'rb'))
 
 y_pred = model.predict(X)
 
@@ -112,7 +112,7 @@ tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
 
 with tab1:
   st.sidebar.header("**User Input** Sidebar")
-  st.sidebar.write("Dhiaka Shabrina Assyifa")
+  st.sidebar.write("Dhiaka Shabrina Assyifa-knn")
 
   age = st.sidebar.number_input(label=":violet[**Age**]", min_value=df_final['age'].min(), max_value=df_final['age'].max())
   st.sidebar.write(f":orange[Min] value: :orange[**{df_final['age'].min()}**], :red[Max] value: :red[**{df_final['age'].max()}**]")
