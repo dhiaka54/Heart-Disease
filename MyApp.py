@@ -84,7 +84,7 @@ X = df_clean.drop("target", axis=1).values
 y = df_clean['target']
 
 smote = SMOTE(random_state=42)
-X_smote_resampled, y_smote_resampled = smote.fit_resample(x, y)
+X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(x, y)
 
 model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
 
