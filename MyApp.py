@@ -313,9 +313,9 @@ def main():
     st.write('Yuk Cek Kesehatan Anda')
 
     # Mengubah tab berdasarkan tombol yang diklik
-    if st.button("**Single-predict**", type="primary"):
+    if st.button("**Single-predict**", type="secondary"):
         session_state.tab = 'Single-predict'
-    if st.button("**Multi-predict**", type="primary"):
+    if st.button("**Multi-predict**", type="secondary"):
         session_state.tab = 'Multi-predict'
 
     # Menampilkan tab berdasarkan session_state
