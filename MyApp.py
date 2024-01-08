@@ -6,9 +6,7 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 import time
 import pickle
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+
 
 # Membaca data dan preprocessing
 with open("data/hungarian.data", encoding='Latin1') as file:
@@ -90,33 +88,24 @@ y = df_clean['target']
 smote = SMOTE(random_state=42)
 X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(X, y)
 
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X_smote_resampled_normal = scaler.fit_transform(X_smote_resampled)
+
 # Membagi data menjadi train dan test
+from sklearn.model_selection import train_test_split
 X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
                                                                                 y_smote_resampled,
                                                                                 test_size=0.2,
                                                                                 random_state=42,
                                                                                 stratify = y_smote_resampled)
 
-# from xgboost import XGBClassifier
-# from sklearn.model_selection import RandomizedSearchCV
-# xgb_model = XGBClassifier()
-# param_grid = {
-# "max_depth": [3, 5, 7],
-# "learning_rate": [0.01, 0.1],
-# "n_estimators": [100, 200],
-# "gamma": [0, 0.1],
-# "colsample_bytree": [0.7, 0.8],
-# }
-# xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
-# xgb_model.fit(X_train_normal, y_train_normal)
-# Muat model dari file
-# best_xgb_model = xgb_model.best_estimator_
-# with open('model/rf_model2.pkl', 'wb') as file:
-#     pickle.dump(xgb_model, file)
-# with open('model/rf_model2.pkl', 'rb') as file:
-#   model = pickle.load(file)
-model = pickle.load(open("model/xgb_model2.pkl", 'rb'))
-y_pred_xgb = model.predict(X_test_normal)
+from xgboost import XGBClassifier
+from sklearn.model_selection import RandomizedSearchCV
+xgb_model = XGBClassifier(learning_rate=0.1, n_estimators=100, random_state=42)
+xgb_model.fit(X_train_normal, y_train_normal)
+y_pred_xgb = xgb_model.predict(X_test_normal)
+
 accuracy = round(accuracy_score(y_test_normal, y_pred_xgb),3)
 accuracy = round(accuracy*100,2)
 
