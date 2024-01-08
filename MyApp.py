@@ -95,7 +95,7 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
 model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
 
 y_pred_xgb = model.predict(X_test_normal)
-accuracyxgb = round(accuracy_score(y_test_normal, y_pred_xgb),3)
+accuracyxgb = round(accuracy_score(y_test_normal, y_pred_xgb)*100,2)
 
 df_final = df_clean.copy()
 df_final['target'] = y_test_normal
