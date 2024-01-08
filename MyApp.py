@@ -238,10 +238,13 @@ def tab1():
 
   st.subheader("Prediction:")
   st.subheader(result)
+  if st.button("Kembali ke Halaman Utama"):
+    session_state.tab = 'main'
 
 def tab2():
   st.header("Predict multiple data:")
-
+  if st.button("Kembali ke Halaman Utama"):
+    session_state.tab = 'main'
   sample_csv = df_final.iloc[:5, :-1].to_csv(index=False).encode('utf-8')
 
   st.write("")
@@ -296,10 +299,7 @@ def tab2():
       
 def main():
     # Menyimpan state aplikasi menggunakan session_state
-
-
     session_state = st.session_state
-
     # Inisialisasi session_state jika belum ada
     if 'tab' not in session_state:
         session_state.tab = 'main'
@@ -309,20 +309,15 @@ def main():
     st.title('Heart Disease Predictor')
     st.write('Selamat datang')
     st.write('Yuk Cek Kesehatan Anda')
-    st.button("Tombol", type="success")  # Tombol dengan gaya success
-    st.button("Tombol", type="danger")   # Tombol dengan gaya danger
-    st.button("Tombol", type="warning")  # Tombol dengan gaya warning
-    st.button("Tombol", type="info")     # Tombol dengan gaya info
-    st.button("Tombol", type="secondary")# Tombol dengan gaya secondary
-
-    # Mengubah tab berdasarkan tombol yang diklik
-    if st.button("**Single-predict**", type="secondary"):
-        session_state.tab = 'Single-predict'
-    if st.button("**Multi-predict**", type="secondary"):
-        session_state.tab = 'Multi-predict'
 
     # Menampilkan tab berdasarkan session_state
-    if session_state.tab == 'Single-predict':
+    if session_state.tab == 'main':
+        # Menampilkan tombol untuk navigasi ke tab Single atau Multi-predict
+        if st.button("**Single-predict**", type="secondary"):
+            session_state.tab = 'Single-predict'
+        if st.button("**Multi-predict**", type="secondary"):
+            session_state.tab = 'Multi-predict'
+    elif session_state.tab == 'Single-predict':
         tab1()
     elif session_state.tab == 'Multi-predict':
         tab2()
