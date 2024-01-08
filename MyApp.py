@@ -81,7 +81,7 @@ df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
 X = df_clean.drop("target", axis=1).values
-y = df_clean[:,-1]
+y = df_clean['target']
 
 smote = SMOTE(random_state=42)
 X_smote_resampled, y_smote_resampled = smote.fit_resample(x, y)
