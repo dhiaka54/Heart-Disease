@@ -296,11 +296,7 @@ def tab2():
       
 def main():
     # Menyimpan state aplikasi menggunakan session_state
-  st.button("Tombol", type="success")  # Tombol dengan gaya success
-st.button("Tombol", type="danger")   # Tombol dengan gaya danger
-st.button("Tombol", type="warning")  # Tombol dengan gaya warning
-st.button("Tombol", type="info")     # Tombol dengan gaya info
-st.button("Tombol", type="secondary")# Tombol dengan gaya secondary
+
 
     session_state = st.session_state
 
@@ -313,6 +309,11 @@ st.button("Tombol", type="secondary")# Tombol dengan gaya secondary
     st.title('Heart Disease Predictor')
     st.write('Selamat datang')
     st.write('Yuk Cek Kesehatan Anda')
+    st.button("Tombol", type="success")  # Tombol dengan gaya success
+    st.button("Tombol", type="danger")   # Tombol dengan gaya danger
+    st.button("Tombol", type="warning")  # Tombol dengan gaya warning
+    st.button("Tombol", type="info")     # Tombol dengan gaya info
+    st.button("Tombol", type="secondary")# Tombol dengan gaya secondary
 
     # Mengubah tab berdasarkan tombol yang diklik
     if st.button("**Single-predict**", type="secondary"):
