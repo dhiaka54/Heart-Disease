@@ -112,7 +112,7 @@ with open('model/rf_model2.pkl', 'rb') as file:
   model = pickle.load(file)
 
 y_pred_xgb = model.predict(X_test_normal)
-accuracy = round(accuracy_score(y_test_normal, y_pred_knn),3)
+accuracy = round(accuracy_score(y_test_normal, y_pred_xgb),3)
 accuracy = round(accuracy*100,2)
 
 df_final = X_test_normal
