@@ -298,10 +298,6 @@ def main():
     # Inisialisasi session_state jika belum ada
     if 'tab' not in session_state:
         session_state.tab = 'main'
-  # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
-    if session_state.tab != 'main':
-      if st.button("Kembali ke Halaman Utama"):
-        session_state.tab = 'main'
 
     page_title = "Hungarian Heart Disease"
     page_icon = ":heart:"
@@ -320,7 +316,10 @@ def main():
         tab1()
     elif session_state.tab == 'Multi-predict':
         tab2()
-        
+    # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
+    if session_state.tab != 'main':
+      if st.button("Kembali ke Halaman Utama"):
+        session_state.tab = 'main'
 if __name__ == "__main__":
     main()
 
