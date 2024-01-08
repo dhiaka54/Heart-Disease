@@ -101,7 +101,6 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
                                                                                 stratify = y_smote_resampled)
 
 from xgboost import XGBClassifier
-from sklearn.model_selection import RandomizedSearchCV
 xgb_model = XGBClassifier(learning_rate=0.1, n_estimators=100, random_state=42)
 xgb_model.fit(X_train_normal, y_train_normal)
 y_pred_xgb = xgb_model.predict(X_test_normal)
