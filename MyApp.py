@@ -80,17 +80,17 @@ fill_values = {
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
-X = df_clean.drop("target", axis=1)
-y = df_clean['target']
+X = df_clean.drop("target", axis=1).values
+y = df_clean[:,-1]
 
 smote = SMOTE(random_state=42)
-X, y = smote.fit_resample(X, y)
+X_smote_resampled, y_smote_resampled = smote.fit_resample(x, y)
 
 model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
 
-y_pred = model.predict(X)
+y_pred_xgb = xgb_model.predict(X_test_normal)
 
-accuracy = accuracy_score(y, y_pred)
+accuracy = accuracy_score(y_test_normal, y_pred_xgb)
 accuracy = round((accuracy * 100), 2)
 
 df_final = X
