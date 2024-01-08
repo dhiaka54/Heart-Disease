@@ -98,7 +98,7 @@ y_pred_xgb = model.predict(X_test_normal)
 accuracyxgb = round(accuracy_score(y_test_normal, y_pred_xgb),3)
 
 df_final = df_clean.copy()
-df_final['target'] = y_pred_xgb
+df_final['target'] = y_test_normal
 
 # ========================================================================================================================================================================================
 
