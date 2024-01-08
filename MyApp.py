@@ -304,7 +304,7 @@ def main():
 
     # Inisialisasi session_state jika belum ada
     if 'tab' not in session_state:
-        session_state.tab = 'Single-predict'
+        session_state.tab = 'main'
 
     page_title = "Hungarian Heart Disease"
     page_icon = ":heart:"
