@@ -297,7 +297,7 @@ def main():
     session_state = st.session_state
     # Inisialisasi session_state jika belum ada
     if 'tab' not in session_state:
-        session_state.tab = 'main
+        session_state.tab = 'main'
   # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
     if session_state.tab != 'main':
       if st.button("Kembali ke Halaman Utama"):
