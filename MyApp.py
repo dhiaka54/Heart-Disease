@@ -94,11 +94,10 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
 
 # model = pickle.load(open("model/rf_best_model.pkl", 'rb'))
 # Muat model dari file
-with open('model/rf_model2.pkl', 'rb') as file:
-  loaded_model = pickle.load(file)
+model = pickle.load(open("model/rf_model2.pkl", 'rb'))
 
 
-y_pred_knn = loaded_model.predict(X_test_normal)
+y_pred_knn = model.predict(X_test_normal)
 accuracy = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
 
 df_final = df_clean.copy()
