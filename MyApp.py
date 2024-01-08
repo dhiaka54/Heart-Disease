@@ -110,7 +110,7 @@ accuracy = round(accuracy_score(y_test_normal, y_pred_xgb),3)
 accuracy = round(accuracy*100,2)
 
 df_final = X_test_normal
-df_final['target'] = y_test_normal
+df_final['target'] = y_smote_resampled
 
 # ========================================================================================================================================================================================
 
