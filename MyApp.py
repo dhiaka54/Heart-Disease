@@ -91,16 +91,20 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
                                                                                 test_size=0.2,
                                                                                 random_state=42,
                                                                                 stratify = y_smote_resampled)
-
-# model = pickle.load(open("model/rf_best_model.pkl", 'rb'))
+from xgboost import XGBClassifier
+xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
+xgb_model.fit(X_train_normal, y_train_normal)
 # Muat model dari file
-model = pickle.load(open("model/rf_model2.pkl", 'rb'))
+with open('model/rf_model2.pkl', 'wb') as file:
+    pickle.dump(xgb_model, file)
+with open('model/rf_model2.pkl', 'rb') as file:
+  model = pickle.load(file)
 
+y_pred_xgb = model.predict(X_test_normal)
+accuracy = round(accuracy_score(y_test_normal, y_pred_knn),3)
+accuracy = round(accuracy*100,2)
 
-y_pred_knn = model.predict(X_test_normal)
-accuracy = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
-
-df_final = df_clean.copy()
+df_final = X_test_normal
 df_final['target'] = y_test_normal
 
 # ========================================================================================================================================================================================
