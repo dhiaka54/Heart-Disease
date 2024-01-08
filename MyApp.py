@@ -313,7 +313,7 @@ def main():
     # Menampilkan tab berdasarkan session_state
     if session_state.tab == 'main':
         # Menampilkan tombol untuk navigasi ke tab Single atau Multi-predict
-        if st.button("**Single-predict**", type="secondary"):
+        if st.button("**Single-predict**", type="primary"):
             session_state.tab = 'Single-predict'
         if st.button("**Multi-predict**", type="secondary"):
             session_state.tab = 'Multi-predict'
