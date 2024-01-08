@@ -9,6 +9,18 @@ import pickle
 from sklearn.model_selection import train_test_split
 
 df = pd.read_csv("data/hungarian.data", header=None)
+data = itertools.takewhile(
+  lambda x: len(x) == 76,
+  (' '.join(lines[i:(i + 10)]).split() for i in range(0, len(lines), 10))
+)
+
+df = pd.DataFrame.from_records(data)
+
+df = df.iloc[:, :-1]
+df = df.drop(df.columns[0], axis=1)
+df = df.astype(float)
+
+df.replace(-9.0, np.NaN, inplace=True)
 df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
 
 column_mapping = {
