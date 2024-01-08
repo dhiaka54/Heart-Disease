@@ -106,6 +106,7 @@ param_grid = {
 xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
 xgb_model.fit(X_train_normal, y_train_normal)
 # Muat model dari file
+best_xgb_model = xgb_model.best_estimator_
 with open('model/rf_model2.pkl', 'wb') as file:
     pickle.dump(xgb_model, file)
 with open('model/rf_model2.pkl', 'rb') as file:
