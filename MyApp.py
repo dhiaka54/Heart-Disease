@@ -298,10 +298,6 @@ def main():
     # Menyimpan state aplikasi menggunakan session_state
     session_state = st.session_state
 
-    # Inisialisasi session_state jika belum ada
-    if 'tab' not in session_state:
-        session_state.tab = 'main'
-
     page_title = "Hungarian Heart Disease"
     page_icon = ":heart:"
     st.title('Heart Disease Predictor')
