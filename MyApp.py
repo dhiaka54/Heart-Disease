@@ -8,14 +8,23 @@ import time
 import pickle
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv("data/hungarian.data", header=None)
+with open("data/hungarian.data", encoding='Latin1') as file:
+  lines = [line.strip() for line in file]
+
+data = itertools.takewhile(
+  lambda x: len(x) == 76,
+  (' '.join(lines[i:(i + 10)]).split() for i in range(0, len(lines), 10))
+)
+
+df = pd.DataFrame.from_records(data)
 
 df = df.iloc[:, :-1]
+df = df.drop(df.columns[0], axis=1)
 df = df.astype(float)
 
 df.replace(-9.0, np.NaN, inplace=True)
-df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
 
+df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
 column_mapping = {
   2: 'age',
   3: 'sex',
@@ -32,11 +41,41 @@ column_mapping = {
   50: 'thal',
   57: 'target'
 }
-df.rename(columns=column_mapping, inplace=True)
+
+df_selected.rename(columns=column_mapping, inplace=True)
 
 columns_to_drop = ['ca', 'slope','thal']
 df_selected = df_selected.drop(columns_to_drop, axis=1)
 
+meanTBPS = df_selected['trestbps'].dropna()
+meanChol = df_selected['chol'].dropna()
+meanfbs = df_selected['fbs'].dropna()
+meanRestCG = df_selected['restecg'].dropna()
+meanthalach = df_selected['thalach'].dropna()
+meanexang = df_selected['exang'].dropna()
+
+meanTBPS = meanTBPS.astype(float)
+meanChol = meanChol.astype(float)
+meanfbs = meanfbs.astype(float)
+meanthalach = meanthalach.astype(float)
+meanexang = meanexang.astype(float)
+meanRestCG = meanRestCG.astype(float)
+
+meanTBPS = round(meanTBPS.mean())
+meanChol = round(meanChol.mean())
+meanfbs = round(meanfbs.mean())
+meanthalach = round(meanthalach.mean())
+meanexang = round(meanexang.mean())
+meanRestCG = round(meanRestCG.mean())
+
+fill_values = {
+  'trestbps': meanTBPS,
+  'chol': meanChol,
+  'fbs': meanfbs,
+  'thalach':meanthalach,
+  'exang':meanexang,
+  'restecg':meanRestCG
+}
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
@@ -47,7 +86,7 @@ smote = SMOTE(random_state=42)
 X_smote_resampled, y_smote_resampled = smote.fit_resample(X, y)
 
 # membagi fitur dan target menjadi data train dan test (untuk yang oversample + normalization)
-X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
+X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled,
                                                                                 y_smote_resampled,
                                                                                 test_size=0.2,
                                                                                 random_state=42,
