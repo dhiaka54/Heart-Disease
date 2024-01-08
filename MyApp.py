@@ -8,6 +8,9 @@ import time
 import pickle
 from sklearn.model_selection import train_test_split
 
+df = pd.read_csv("data/hungarian.data", header=None)
+df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
+
 column_mapping = {
   2: 'age',
   3: 'sex',
@@ -24,12 +27,10 @@ column_mapping = {
   50: 'thal',
   57: 'target'
 }
-df = pd.read_csv("data/hungarian.data", header=None)
-
 df.rename(columns=column_mapping, inplace=True)
 
 columns_to_drop = ['ca', 'slope','thal']
-df.drop(columns=columns_to_drop, axis=1, inplace=True)
+df_selected = df_selected.drop(columns_to_drop, axis=1)
 
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
