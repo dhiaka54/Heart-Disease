@@ -92,7 +92,7 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
                                                                                 random_state=42,
                                                                                 stratify = y_smote_resampled)
 
-model = pickle.load(open("model/knn_best_model.pkl", 'rb'))
+model = pickle.load(open("model/knn_bestmodel.pkl", 'rb'))
 
 y_pred_knn = model.predict(X_test_normal)
 accuracy_knn_smote_normal_Tun = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
