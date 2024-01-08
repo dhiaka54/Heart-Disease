@@ -6,6 +6,7 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 import time
 import pickle
+from sklearn.model_selection import train_test_split
 
 with open("data/hungarian.data", encoding='Latin1') as file:
   lines = [line.strip() for line in file]
@@ -24,7 +25,6 @@ df = df.astype(float)
 df.replace(-9.0, np.NaN, inplace=True)
 
 df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
-
 column_mapping = {
   2: 'age',
   3: 'sex',
@@ -76,25 +76,29 @@ fill_values = {
   'exang':meanexang,
   'restecg':meanRestCG
 }
-
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
-X = df_clean.drop("target", axis=1)
+X = df_clean.drop("target", axis=1).values
 y = df_clean['target']
 
 smote = SMOTE(random_state=42)
-X, y = smote.fit_resample(X, y)
+X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(X, y)
 
-model = pickle.load(open("model/knn_bestmodel.pkl", 'rb'))
+# membagi fitur dan target menjadi data train dan test (untuk yang oversample + normalization)
+X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
+                                                                                y_smote_resampled,
+                                                                                test_size=0.2,
+                                                                                random_state=42,
+                                                                                stratify = y_smote_resampled)
 
-y_pred = model.predict(X)
+model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
 
-accuracy = accuracy_score(y, y_pred)
-accuracy = round((accuracy * 100), 2)
+y_pred_xgb = model.predict(X_test_normal)
+accuracyxgb = round(accuracy_score(y_test_normal, y_pred_xgb)*100,2)
 
-df_final = X
-df_final['target'] = y
+df_final = df_clean.copy()
+df_final['target'] = y_test_normal
 
 # ========================================================================================================================================================================================
 
@@ -105,7 +109,7 @@ st.set_page_config(
 )
 
 st.title("Hungarian Heart Disease")
-st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
+st.write(f"**_Model's Accuracy_** :  :green[**{accuracyxgb}**]% (:red[_Do not copy outright_])")
 st.write("")
 
 tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
