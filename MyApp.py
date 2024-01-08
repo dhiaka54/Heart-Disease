@@ -7,8 +7,6 @@ import streamlit as st
 import time
 import pickle
 
-
-# Membaca data dan preprocessing
 with open("data/hungarian.data", encoding='Latin1') as file:
   lines = [line.strip() for line in file]
 
@@ -26,6 +24,7 @@ df = df.astype(float)
 df.replace(-9.0, np.NaN, inplace=True)
 
 df_selected = df.iloc[:, [1, 2, 7, 8, 10, 14, 17, 30, 36, 38, 39, 42, 49, 56]]
+
 column_mapping = {
   2: 'age',
   3: 'sex',
@@ -77,38 +76,23 @@ fill_values = {
   'exang':meanexang,
   'restecg':meanRestCG
 }
+
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
-# Memisahkan fitur dan target
 X = df_clean.drop("target", axis=1)
 y = df_clean['target']
 
-# Oversampling dengan SMOTE
 smote = SMOTE(random_state=42)
-X_smote_resampled, y_smote_resampled = smote.fit_resample(X, y)
+X, y = smote.fit_resample(X, y)
 
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-X_smote_resampled_normal = scaler.fit_transform(X_smote_resampled)
+model = pickle.load(open("model/xgb_model.pkl", 'rb'))
 
-# Membagi data menjadi train dan test
-from sklearn.model_selection import train_test_split
-X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
-                                                                                y_smote_resampled,
-                                                                                test_size=0.2,
-                                                                                random_state=42,
-                                                                                stratify = y_smote_resampled)
+y_pred = model.predict(X)
+accuracy = accuracy_score(y, y_pred)
+accuracy = round((accuracy * 100), 2)
 
-from xgboost import XGBClassifier
-xgb_model = XGBClassifier(learning_rate=0.1, n_estimators=100, random_state=42)
-xgb_model.fit(X_train_normal, y_train_normal)
-y_pred_xgb = xgb_model.predict(X_test_normal)
-
-accuracy = round(accuracy_score(y_test_normal, y_pred_xgb),3)
-accuracy = round(accuracy*100,2)
-
-df_final = X_test_normal
+df_final = X
 df_final['target'] = y
 
 # ========================================================================================================================================================================================
@@ -127,7 +111,7 @@ tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
 
 with tab1:
   st.sidebar.header("**User Input** Sidebar")
-  st.sidebar.write("Dhiaka Shabrina Assyifa-knn")
+  st.sidebar.write("Dhiaka Shabrina Assyifa - A11.2020.13094")
 
   age = st.sidebar.number_input(label=":violet[**Age**]", min_value=df_final['age'].min(), max_value=df_final['age'].max())
   st.sidebar.write(f":orange[Min] value: :orange[**{df_final['age'].min()}**], :red[Max] value: :red[**{df_final['age'].max()}**]")
