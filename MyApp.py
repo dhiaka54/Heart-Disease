@@ -98,6 +98,32 @@ df_final['target'] = y
 # ========================================================================================================================================================================================
 
 # STREAMLIT
+def main():
+    # Menyimpan state aplikasi menggunakan session_state
+    session_state = st.session_state
+
+    # Inisialisasi session_state jika belum ada
+    if 'tab' not in session_state:
+        session_state.tab = 'Single-predict'
+
+    page_title = "Hungarian Heart Disease"
+    page_icon = ":heart:"
+    st.title('Heart Disease Predictor')
+    st.write('Selamat datang')
+    st.write('Yuk Cek Kesehatan Anda')
+
+    # Mengubah tab berdasarkan tombol yang diklik
+    if st.button("**Single-predict**", type="primary"):
+        session_state.tab1 = 'Single-predict'
+    if st.button("**Multi-predict**", type="primary"):
+        session_state.tab2 = 'Multi-predict'
+
+    # Menampilkan tab berdasarkan session_state
+    if session_state.tab == 'Single-predict':
+        tab1()
+    elif session_state.tab == 'Multi-predict':
+        tab2()
+      
 def tab1():
   st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
   st.sidebar.header("**User Input** Sidebar")
@@ -297,15 +323,6 @@ def tab2():
       st.dataframe(uploaded_result)
     with col2:
       st.dataframe(uploaded_df)
-      
-def main():
-  page_title = "Hungarian Heart Disease",
-  page_icon = ":heart:"
-  st.title('Heart Disease Predictor')
-  st.write('Selamat datang')
-  st.write('Yuk Cek Kesehatan Anda')
-  btn = st.button("**Single-predict**", type="primary")
-  btn2 = st.button("**Multi-predict**", type="primary")
 
 if __name__ == "__main__":
     main()
