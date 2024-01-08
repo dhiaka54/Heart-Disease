@@ -79,11 +79,11 @@ fill_values = {
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
-X = df_clean.drop("target", axis=1).values
+X = df_clean.drop("target", axis=1)
 y = df_clean['target']
 
 smote = SMOTE(random_state=42)
-X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(X, y)
+X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(x, y)
 
 # membagi fitur dan target menjadi data train dan test (untuk yang oversample + normalization)
 X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
