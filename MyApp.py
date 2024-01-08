@@ -96,6 +96,13 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
 from xgboost import XGBClassifier
 from sklearn.model_selection import RandomizedSearchCV
 xgb_model = XGBClassifier()
+param_grid = {
+"max_depth": [3, 5, 7],
+"learning_rate": [0.01, 0.1],
+"n_estimators": [100, 200],
+"gamma": [0, 0.1],
+"colsample_bytree": [0.7, 0.8],
+}
 xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
 xgb_model.fit(X_train_normal, y_train_normal)
 # Muat model dari file
