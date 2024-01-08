@@ -29,7 +29,7 @@ df = pd.read_csv("data/hungarian.data", header=None)
 df.rename(columns=column_mapping, inplace=True)
 
 columns_to_drop = ['ca', 'slope','thal']
-df_selected = df_selected.drop(columns_to_drop, axis=1)
+df_selected = df_selected.drop(columns=columns_to_drop, axis=1)
 
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
