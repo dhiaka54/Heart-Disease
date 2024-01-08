@@ -98,18 +98,8 @@ df_final['target'] = y
 # ========================================================================================================================================================================================
 
 # STREAMLIT
-st.set_page_config(
-  page_title = "Hungarian Heart Disease",
-  page_icon = ":heart:"
-)
-
-st.title("Hungarian Heart Disease")
-st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
-st.write("")
-
-tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
-
-with tab1:
+def tab1():
+  st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
   st.sidebar.header("**User Input** Sidebar")
   st.sidebar.write("Dhiaka Shabrina Assyifa - A11.2020.13094")
 
@@ -251,7 +241,7 @@ with tab1:
   st.subheader("Prediction:")
   st.subheader(result)
 
-with tab2:
+def tab2():
   st.header("Predict multiple data:")
 
   sample_csv = df_final.iloc[:5, :-1].to_csv(index=False).encode('utf-8')
@@ -307,3 +297,16 @@ with tab2:
       st.dataframe(uploaded_result)
     with col2:
       st.dataframe(uploaded_df)
+      
+  def main():
+  st.set_page_config(
+  page_title = "Hungarian Heart Disease",
+  page_icon = ":heart:"
+  )
+  st.title('Heart Disease Predictor')
+  st.write('Selamat datang')
+  st.write('Yuk Cek Kesehatan Anda')
+  tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
+
+if __name__ == "__main__":
+    main()
