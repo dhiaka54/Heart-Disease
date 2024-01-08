@@ -92,10 +92,10 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
                                                                                 random_state=42,
                                                                                 stratify = y_smote_resampled)
 
-model = pickle.load(open("model/xgbmodel.pkl", 'rb'))
+model = pickle.load(open("model/xgb_best_model.pkl", 'rb'))
 
 y_pred_knn = model.predict(X_test_normal)
-accuracy_knn_smote_normal_Tun = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
+accuracy = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
 
 df_final = df_clean.copy()
 df_final['target'] = y_test_normal
@@ -109,7 +109,7 @@ st.set_page_config(
 )
 
 st.title("Hungarian Heart Disease")
-st.write(f"**_Model's Accuracy_** :  :green[**{accuracy_knn_smote_normal_Tun}**]% (:red[_Do not copy outright_])")
+st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
 st.write("")
 
 tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
