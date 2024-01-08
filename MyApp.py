@@ -79,7 +79,7 @@ fill_values = {
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
-X = df_clean.drop("target", axis=1).values
+X = df_clean.drop("target", axis=1)
 y = df_clean['target']
 
 smote = SMOTE(random_state=42)
@@ -94,8 +94,8 @@ X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(
 
 model = pickle.load(open("model/rf_best_model.pkl", 'rb'))
 
-y_pred_xgb = model.predict(X_test_normal)
-accuracyxgb = round(accuracy_score(y_test_normal, y_pred_xgb)*100,2)
+y_pred_knn = model.predict(X_test_normal)
+accuracy = round(accuracy_score(y_test_normal, y_pred_knn)*100,2)
 
 df_final = df_clean.copy()
 df_final['target'] = y_test_normal
@@ -109,7 +109,7 @@ st.set_page_config(
 )
 
 st.title("Hungarian Heart Disease")
-st.write(f"**_Model's Accuracy_** :  :green[**{accuracyxgb}**]% (:red[_Do not copy outright_])")
+st.write(f"**_Model's Accuracy_** :  :green[**{accuracy}**]% (:red[_Do not copy outright_])")
 st.write("")
 
 tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
