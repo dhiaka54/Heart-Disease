@@ -298,11 +298,9 @@ def tab2():
     with col2:
       st.dataframe(uploaded_df)
       
-  def main():
-  st.set_page_config(
+def main():
   page_title = "Hungarian Heart Disease",
   page_icon = ":heart:"
-  )
   st.title('Heart Disease Predictor')
   st.write('Selamat datang')
   st.write('Yuk Cek Kesehatan Anda')
