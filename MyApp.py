@@ -236,8 +236,6 @@ def tab1():
     elif prediction == 4:
       result = ":red[**Heart disease level 4**]"
 
-  st.write("")
-  st.write("")
   st.subheader("Prediction:")
   st.subheader(result)
 
@@ -248,9 +246,7 @@ def tab2():
 
   st.write("")
   st.download_button("Download CSV Example", data=sample_csv, file_name='sample_heart_disease_parameters.csv', mime='text/csv')
-
-  st.write("")
-  st.write("")
+  
   file_uploaded = st.file_uploader("Upload a CSV file", type='csv')
 
   if file_uploaded:
