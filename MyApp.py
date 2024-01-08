@@ -304,7 +304,8 @@ def main():
   st.title('Heart Disease Predictor')
   st.write('Selamat datang')
   st.write('Yuk Cek Kesehatan Anda')
-  tab1, tab2 = st.tabs(["Single-predict", "Multi-predict"])
+  btn = st.button("**Single-predict**", type="primary")
+  btn2 = st.button("**Multi-predict**", type="primary")
 
 if __name__ == "__main__":
     main()
