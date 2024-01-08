@@ -238,10 +238,6 @@ def tab1():
 
   st.subheader("Prediction:")
   st.subheader(result)
-  # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
-  if session_state.tab != 'main':
-    if st.button("Kembali ke Halaman Utama"):
-      session_state.tab = 'main'
 
 def tab2():
   st.header("Predict multiple data:")
@@ -296,15 +292,15 @@ def tab2():
       st.dataframe(uploaded_result)
     with col2:
       st.dataframe(uploaded_df)
-    # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
-    if session_state.tab != 'main':
-      if st.button("Kembali ke Halaman Utama"):
-        session_state.tab = 'main'
 def main():
     # Menyimpan state aplikasi menggunakan session_state
     session_state = st.session_state
     # Inisialisasi session_state jika belum ada
-    if 'tab' not in session_state:
+    # if 'tab' not in session_state:
+    #     session_state.tab = 'main
+  # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
+    if session_state.tab != 'main':
+      if st.button("Kembali ke Halaman Utama"):
         session_state.tab = 'main'
 
     page_title = "Hungarian Heart Disease"
