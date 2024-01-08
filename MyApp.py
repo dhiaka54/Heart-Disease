@@ -86,7 +86,7 @@ y = df_clean['target']
 
 # Oversampling dengan SMOTE
 smote = SMOTE(random_state=42)
-X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(X, y)
+X_smote_resampled, y_smote_resampled = smote.fit_resample(X, y)
 
 from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
