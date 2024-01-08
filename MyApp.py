@@ -8,7 +8,9 @@ import time
 import pickle
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
+# Membaca data dan preprocessing
 with open("data/hungarian.data", encoding='Latin1') as file:
   lines = [line.strip() for line in file]
 
@@ -80,38 +82,40 @@ fill_values = {
 df_clean = df_selected.fillna(value=fill_values)
 df_clean.drop_duplicates(inplace=True)
 
+# Memisahkan fitur dan target
 X = df_clean.drop("target", axis=1)
 y = df_clean['target']
 
+# Oversampling dengan SMOTE
 smote = SMOTE(random_state=42)
 X_smote_resampled_normal, y_smote_resampled = smote.fit_resample(X, y)
 
-# membagi fitur dan target menjadi data train dan test (untuk yang oversample + normalization)
+# Membagi data menjadi train dan test
 X_train_normal, X_test_normal, y_train_normal, y_test_normal = train_test_split(X_smote_resampled_normal,
                                                                                 y_smote_resampled,
                                                                                 test_size=0.2,
                                                                                 random_state=42,
                                                                                 stratify = y_smote_resampled)
 
-from xgboost import XGBClassifier
-from sklearn.model_selection import RandomizedSearchCV
-xgb_model = XGBClassifier()
-param_grid = {
-"max_depth": [3, 5, 7],
-"learning_rate": [0.01, 0.1],
-"n_estimators": [100, 200],
-"gamma": [0, 0.1],
-"colsample_bytree": [0.7, 0.8],
-}
-xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
-xgb_model.fit(X_train_normal, y_train_normal)
+# from xgboost import XGBClassifier
+# from sklearn.model_selection import RandomizedSearchCV
+# xgb_model = XGBClassifier()
+# param_grid = {
+# "max_depth": [3, 5, 7],
+# "learning_rate": [0.01, 0.1],
+# "n_estimators": [100, 200],
+# "gamma": [0, 0.1],
+# "colsample_bytree": [0.7, 0.8],
+# }
+# xgb_model = RandomizedSearchCV(xgb_model, param_grid, n_iter=10, cv=5, n_jobs=-1)
+# xgb_model.fit(X_train_normal, y_train_normal)
 # Muat model dari file
 # best_xgb_model = xgb_model.best_estimator_
 # with open('model/rf_model2.pkl', 'wb') as file:
 #     pickle.dump(xgb_model, file)
-# with open('model/rf_model2.pkl', 'rb') as file:
-#   model = pickle.load(file)
-model = pickle.load(open("model/xgb_model.pkl", 'rb'))
+with open('model/rf_model2.pkl', 'rb') as file:
+  model = pickle.load(file)
+# model = pickle.load(open("model/xgb_model.pkl", 'rb'))
 y_pred_xgb = model.predict(X_test_normal)
 accuracy = round(accuracy_score(y_test_normal, y_pred_xgb),3)
 accuracy = round(accuracy*100,2)
