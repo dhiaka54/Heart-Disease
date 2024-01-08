@@ -238,13 +238,10 @@ def tab1():
 
   st.subheader("Prediction:")
   st.subheader(result)
-  if st.button("Kembali ke Halaman Utama"):
-    session_state.tab = 'main'
+
 
 def tab2():
   st.header("Predict multiple data:")
-  if st.button("Kembali ke Halaman Utama"):
-    session_state.tab = 'main'
   sample_csv = df_final.iloc[:5, :-1].to_csv(index=False).encode('utf-8')
 
   st.write("")
@@ -324,8 +321,9 @@ def main():
     
   # Menambahkan tombol Kembali ke Halaman Utama di setiap tab
     if session_state.tab != 'main':
-        if st.button("Kembali ke Halaman Utama"):
-            session_state.tab = 'main'
+      if st.button("Kembali ke Halaman Utama"):
+        session_state.tab = 'main'
+        
 if __name__ == "__main__":
     main()
 
