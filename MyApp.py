@@ -11,7 +11,6 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("data/hungarian.data", header=None)
 
 df = df.iloc[:, :-1]
-df = df.drop(df.columns[0], axis=1)
 df = df.astype(float)
 
 df.replace(-9.0, np.NaN, inplace=True)
